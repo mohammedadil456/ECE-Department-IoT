@@ -1,0 +1,13 @@
+services:
+  smartlab-api:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      SMARTLAB_DB: /data/smartlab.db
+      SMARTLAB_CORS_ORIGINS: "*"
+    volumes:
+      - smartlab-data:/data
+    restart: unless-stopped
+volumes:
+  smartlab-data:
