@@ -1,0 +1,37 @@
+name: SmartLab quality checks
+on:
+  push:
+    branches: [main, feat/smartlab-application]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Validate dashboard JavaScript syntax
+        run: node --check application/app.js
+      - name: Install API and test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r backend/requirements.txt -r backend/requirements-dev.txt
+      - name: Validate Python syntax
+        run: python -m compileall -q backend/app tests
+      - name: Run API regression tests
+        run: pytest -q
+      - name: Check required application files
+        run: |
+          test -s application/index.html
+          test -s application/styles.css
+          test -s application/manifest.json
+          test -s application/sw.js
+          test -s backend/app/main.py
