@@ -1,11 +1,13 @@
 import pytest
 from fastapi.testclient import TestClient
-from app import main as api
-
-# The API package lives in backend/app; add that directory for direct pytest runs.
-import sys
+import importlib.util
 from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "backend"))
+
+_API_PATH = Path(__file__).resolve().parents[1] / "backend" / "app" / "main.py"
+_SPEC = importlib.util.spec_from_file_location("smartlab_api_under_test", _API_PATH)
+api = importlib.util.module_from_spec(_SPEC)
+assert _SPEC and _SPEC.loader
+_SPEC.loader.exec_module(api)
 
 
 @pytest.fixture
