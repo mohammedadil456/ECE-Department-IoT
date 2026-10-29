@@ -8,6 +8,8 @@ An installable browser/PWA dashboard for the ECE SmartLab IoT project.
 - ESP32 device mode reading the existing `GET /api/readings` endpoint
 - Temperature threshold indicator and health summary
 - Rolling 30-sample graph and recent readings table
+- Browser-local persistence for recent readings and temperature threshold
+- Request timeout and in-flight polling guard for device mode
 - CSV export
 - PWA manifest and service worker for install/offline shell
 
@@ -27,4 +29,4 @@ Put the ESP32 and the device running the app on the same Wi-Fi network. In Devic
 When the application is hosted on HTTPS, browsers may block requests to an HTTP-only ESP32 endpoint (mixed content). For local hardware testing, open the app from a local HTTP server on the same network or configure a secure proxy. Cross-origin access may also require CORS headers in firmware; the current starter firmware may need that adjustment.
 
 ## Important scope
-Simulation values are synthetic and labeled as simulation. Physical sensor readings are only shown when the ESP32 endpoint is reachable. This frontend is the first implementation milestone; a cloud backend, user accounts, durable database, Android/Windows packaging, MQTT, multi-node provisioning, and push notifications remain subsequent milestones. Do not treat this academic prototype as a certified safety system.
+Simulation values are synthetic and labeled as simulation. Physical sensor readings are only shown when the ESP32 endpoint is reachable. This frontend is the dashboard milestone. The repository also includes a FastAPI + SQLite service; connect it separately using the backend instructions. User accounts, Android/Windows packaging, MQTT provisioning, and push notifications remain follow-on work. Do not treat this academic prototype as a certified safety system.
